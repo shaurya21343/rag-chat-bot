@@ -4,9 +4,15 @@ import { Queue } from 'bullmq';
 import { mkdirSync, writeFileSync } from 'fs';
 import path from 'path';
 import { redirect } from 'next/navigation';
+import IORedis from "ioredis";
 
-const fileQueue = new Queue('upload-processing-queue', {
-  connection: { host: process.env.REDIS_HOST, port: process.env.REDIS_PORT },
+const connection = new IORedis(process.env.REDIS_URL!, {
+   maxRetriesPerRequest: null, // Required by BullMQ
+  tls: {},  
+});
+
+const fileQueue = new Queue("upload-processing-queue", {
+  connection,
 });
 
 export async function POST(request: Request) {

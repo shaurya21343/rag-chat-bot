@@ -1,50 +1,66 @@
-import { NextResponse } from 'next/server';
-import { OpenAIEmbeddings } from "@langchain/openai";
-import { QdrantVectorStore } from "@langchain/qdrant";
-import { auth } from '@clerk/nextjs/server';
-import { redirect } from 'next/navigation';
+import { NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
+import { QdrantClient } from "@qdrant/js-client-rest";
 
-const embeddings = new OpenAIEmbeddings({
-  modelName: "nvidia/nemotron-3-embed-1b:free",
-  apiKey:process.env.OPEN_ROUTER_API_KEY,
-
-  configuration: {
-    baseURL: "https://openrouter.ai/api/v1",
-
-    defaultHeaders: {
-      "HTTP-Referer": "http://localhost:3000",
-      "X-Title": "Qdrant Free Embeddings App",
-    },
-  },
-   encodingFormat: "float",
+const qdrant = new QdrantClient({
+  url: process.env.QDRANT_URL!,
+  apiKey: process.env.QDRANT_API_KEY!,
 });
 
-const vectorStore = await QdrantVectorStore.fromExistingCollection(
-  embeddings,
-  {
-    url:process.env.QDRANT_URL ,
-    collectionName: "pdf-docs",
-  }
-);
+export async function POST() {
+  try {
+    const { userId } = await auth();
 
-export async function POST(request: Request) {
-   
-    const {userId}= await auth()
-
-      const result = await vectorStore.delete({
-    filter: {
-      must: [
+    // User must be logged in
+    if (!userId) {
+      return NextResponse.json(
         {
-          key: 'metadata.userId',
-          match: {
-            value: userId,
-          },
+          success: false,
+          error: "Unauthorized",
         },
-      ],
+        {
+          status: 401,
+        }
+      );
     }
-  });
+    await qdrant.createPayloadIndex("pdf-docs", {
+  field_name: "metadata.userId",
+  field_schema: "keyword",
+});
 
-  console.log(result)
 
-  return NextResponse.json({success:true})
+    // Delete all vectors belonging to this user
+    const result = await qdrant.delete("pdf-docs", {
+      filter: {
+        must: [
+          {
+            key: "metadata.userId",
+            match: {
+              value: userId,
+            },
+          },
+        ],
+      },
+      wait: true,
+    });
+
+    console.log("Qdrant delete result:", result);
+
+    return NextResponse.json({
+      success: true,
+      message: "All files deleted successfully",
+    });
+  } catch (error) {
+    console.error("Failed to delete files:", error);
+
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Failed to delete files",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
 }
