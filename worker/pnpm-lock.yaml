@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@langchain/community':
         specifier: ^1.1.29
-        version: 1.1.29(@browserbasehq/sdk@2.18.0)(@browserbasehq/stagehand@1.14.0(@playwright/test@1.62.1)(deepmerge@4.3.1)(dotenv@17.4.2)(openai@6.49.0(ws@8.21.3)(zod@4.4.3))(zod@4.4.3))(@ibm-cloud/watsonx-ai@1.7.16)(@langchain/core@1.2.8(openai@6.49.0(ws@8.21.3)(zod@4.4.3))(ws@8.21.3))(@qdrant/js-client-rest@1.19.0(typescript@5.9.3))(ibm-cloud-sdk-core@5.6.0)(ioredis@6.0.0)(jsonwebtoken@9.0.3)(openai@6.49.0(ws@8.21.3)(zod@4.4.3))(pdf-parse@2.4.5)(playwright@1.62.1)(ws@8.21.3)
+        version: 1.1.29(@browserbasehq/sdk@2.18.0)(@browserbasehq/stagehand@1.14.0(@playwright/test@1.62.1)(deepmerge@4.3.1)(dotenv@16.4.5)(openai@6.49.0(ws@8.21.3)(zod@4.4.3))(zod@4.4.3))(@ibm-cloud/watsonx-ai@1.7.16)(@langchain/core@1.2.8(openai@6.49.0(ws@8.21.3)(zod@4.4.3))(ws@8.21.3))(@qdrant/js-client-rest@1.19.0(typescript@5.9.3))(ibm-cloud-sdk-core@5.6.0)(ioredis@6.0.0)(jsonwebtoken@9.0.3)(openai@6.49.0(ws@8.21.3)(zod@4.4.3))(pdf-parse@2.4.5)(playwright@1.62.1)(ws@8.21.3)
       '@langchain/qdrant':
         specifier: ^1.0.3
         version: 1.0.3(@langchain/core@1.2.8(openai@6.49.0(ws@8.21.3)(zod@4.4.3))(ws@8.21.3))(typescript@5.9.3)
@@ -30,8 +30,8 @@ importers:
         specifier: ^1.1.3
         version: 1.1.3
       dotenv:
-        specifier: ^17.4.2
-        version: 17.4.2
+        specifier: ^16.4.5
+        version: 16.4.5
       env:
         specifier: ^0.0.2
         version: 0.0.2
@@ -819,10 +819,6 @@ packages:
     resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
     engines: {node: '>=12'}
 
-  dotenv@17.4.2:
-    resolution: {integrity: sha512-nI4U3TottKAcAD9LLud4Cb7b2QztQMUEfHbvhTH09bqXTxnSie8WnjPALV/WMCrJZ6UV/qHJ6L03OqO3LcdYZw==}
-    engines: {node: '>=12'}
-
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
     engines: {node: '>= 0.4'}
@@ -1453,13 +1449,13 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@browserbasehq/stagehand@1.14.0(@playwright/test@1.62.1)(deepmerge@4.3.1)(dotenv@17.4.2)(openai@6.49.0(ws@8.21.3)(zod@4.4.3))(zod@4.4.3)':
+  '@browserbasehq/stagehand@1.14.0(@playwright/test@1.62.1)(deepmerge@4.3.1)(dotenv@16.4.5)(openai@6.49.0(ws@8.21.3)(zod@4.4.3))(zod@4.4.3)':
     dependencies:
       '@anthropic-ai/sdk': 0.27.3
       '@browserbasehq/sdk': 2.18.0
       '@playwright/test': 1.62.1
       deepmerge: 4.3.1
-      dotenv: 17.4.2
+      dotenv: 16.4.5
       openai: 6.49.0(ws@8.21.3)(zod@4.4.3)
       ws: 8.21.3
       zod: 4.4.3
@@ -1503,9 +1499,9 @@ snapshots:
       - openai
       - ws
 
-  '@langchain/community@1.1.29(@browserbasehq/sdk@2.18.0)(@browserbasehq/stagehand@1.14.0(@playwright/test@1.62.1)(deepmerge@4.3.1)(dotenv@17.4.2)(openai@6.49.0(ws@8.21.3)(zod@4.4.3))(zod@4.4.3))(@ibm-cloud/watsonx-ai@1.7.16)(@langchain/core@1.2.8(openai@6.49.0(ws@8.21.3)(zod@4.4.3))(ws@8.21.3))(@qdrant/js-client-rest@1.19.0(typescript@5.9.3))(ibm-cloud-sdk-core@5.6.0)(ioredis@6.0.0)(jsonwebtoken@9.0.3)(openai@6.49.0(ws@8.21.3)(zod@4.4.3))(pdf-parse@2.4.5)(playwright@1.62.1)(ws@8.21.3)':
+  '@langchain/community@1.1.29(@browserbasehq/sdk@2.18.0)(@browserbasehq/stagehand@1.14.0(@playwright/test@1.62.1)(deepmerge@4.3.1)(dotenv@16.4.5)(openai@6.49.0(ws@8.21.3)(zod@4.4.3))(zod@4.4.3))(@ibm-cloud/watsonx-ai@1.7.16)(@langchain/core@1.2.8(openai@6.49.0(ws@8.21.3)(zod@4.4.3))(ws@8.21.3))(@qdrant/js-client-rest@1.19.0(typescript@5.9.3))(ibm-cloud-sdk-core@5.6.0)(ioredis@6.0.0)(jsonwebtoken@9.0.3)(openai@6.49.0(ws@8.21.3)(zod@4.4.3))(pdf-parse@2.4.5)(playwright@1.62.1)(ws@8.21.3)':
     dependencies:
-      '@browserbasehq/stagehand': 1.14.0(@playwright/test@1.62.1)(deepmerge@4.3.1)(dotenv@17.4.2)(openai@6.49.0(ws@8.21.3)(zod@4.4.3))(zod@4.4.3)
+      '@browserbasehq/stagehand': 1.14.0(@playwright/test@1.62.1)(deepmerge@4.3.1)(dotenv@16.4.5)(openai@6.49.0(ws@8.21.3)(zod@4.4.3))(zod@4.4.3)
       '@ibm-cloud/watsonx-ai': 1.7.16
       '@langchain/classic': 1.0.43(@langchain/core@1.2.8(openai@6.49.0(ws@8.21.3)(zod@4.4.3))(ws@8.21.3))(openai@6.49.0(ws@8.21.3)(zod@4.4.3))(ws@8.21.3)
       '@langchain/core': 1.2.8(openai@6.49.0(ws@8.21.3)(zod@4.4.3))(ws@8.21.3)
@@ -1851,8 +1847,6 @@ snapshots:
   dot@1.1.3: {}
 
   dotenv@16.4.5: {}
-
-  dotenv@17.4.2: {}
 
   dunder-proto@1.0.1:
     dependencies:
