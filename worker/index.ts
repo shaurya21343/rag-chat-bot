@@ -5,6 +5,8 @@ import { unlink } from "fs/promises";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { QdrantVectorStore } from "@langchain/qdrant";
 import IORedis from "ioredis";
+import "dotenv/config";
+import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
 
 
 // --------------------------------------------------
@@ -111,6 +113,7 @@ const worker = new Worker(
         typeof job.data === "string"
           ? JSON.parse(job.data)
           : job.data;
+        
     } catch (error) {
       console.error("Invalid job data:", error);
 
@@ -124,9 +127,9 @@ const worker = new Worker(
     // Validate job data
     // ----------------------------------------------
 
-    if (!data?.filename) {
+    if (!data?.fileUrl) {
       throw new Error(
-        `Missing filename in job ${job.id}`
+        `Missing file url in job ${job.id}`
       );
     }
 
@@ -137,24 +140,26 @@ const worker = new Worker(
     }
 
 
-    const filePath = path.resolve(
-      __dirname,
-      "../storage",
-      data.filename
-    );
+    const fileUrl = data.fileUrl
 
-    console.log("File:", filePath);
+    console.log("File:", fileUrl);
     console.log("User:", data.userId);
 
+    const response = await fetch(fileUrl);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch PDF: ${response.statusText}`);
+    }
+    const blob = await response.blob();
 
     // ----------------------------------------------
     // Check PDF
     // ----------------------------------------------
 
     try {
-      const loader = new PDFLoader(filePath, {
-        splitPages: true,
-      });
+      const loader = new WebPDFLoader(blob,{
+        splitPages:true
+      })
 
       const rawDocuments = await loader.load();
 
@@ -180,8 +185,6 @@ const worker = new Worker(
           ...document.metadata,
 
           userId: data.userId,
-
-          filename: data.filename,
         },
       }));
 
@@ -204,14 +207,13 @@ const worker = new Worker(
       // --------------------------------------------
 
       try {
-        await unlink(filePath);
 
         console.log(
-          `Deleted processed file: ${data.filename}`
+          `Deleted processed file: ${data.fileUrl}`
         );
       } catch (deleteError) {
         console.error(
-          `Failed to delete file ${data.filename}:`,
+          `Failed to delete file ${data.fileUrl}:`,
           deleteError
         );
 
@@ -225,7 +227,6 @@ const worker = new Worker(
 
       return {
         success: true,
-        filename: data.filename,
         userId: data.userId,
         pages: documents.length,
       };
