@@ -1,17 +1,20 @@
 import { Worker } from "bullmq";
-import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
-import path from "path";
-import { unlink } from "fs/promises";
+
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { QdrantVectorStore } from "@langchain/qdrant";
 import IORedis from "ioredis";
 import "dotenv/config";
 import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
-
+import express from "express"
 
 // --------------------------------------------------
 // Environment validation
 // --------------------------------------------------
+
+
+const app = express()
+
+
 
 const requiredEnv = [
   "REDIS_URL",
@@ -300,31 +303,10 @@ worker.on("stalled", (jobId) => {
 // Graceful shutdown
 // --------------------------------------------------
 
-const shutdown = async (signal: string) => {
-  console.log(
-    `\nReceived ${signal}. Shutting down worker...`
-  );
+app.get("/ping",(req,res)=>{
+  res.send("pong")
+})
 
-  try {
-    await worker.close();
-
-    console.log("Worker closed");
-
-    await connection.quit();
-
-    console.log("Redis connection closed");
-
-    process.exit(0);
-  } catch (error) {
-    console.error(
-      "Error during shutdown:",
-      error
-    );
-
-    process.exit(1);
-  }
-};
-
-
-process.on("SIGTERM", () => shutdown("SIGTERM"));
-process.on("SIGINT", () => shutdown("SIGINT"));
+app.listen(process.env.PORT,()=>{
+  console.log("pinging server running")
+})
